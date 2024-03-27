@@ -1,0 +1,14 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/expressjs-api-scraping-enter/node_modules
+
+# testing
+
+# misc
+
+# debug
+
+# local env files
+
+# typescript
