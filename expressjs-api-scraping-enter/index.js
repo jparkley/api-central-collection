@@ -1,14 +1,17 @@
-const PORT = process.env.port || 8080;
+require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const APIConstants = require("./constants");
+
+const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.send("Welcome");
 });
 
-app.get("/enter", async (req, res) => {
+app.get("/mlb", async (req, res) => {
   try {
     const content = await scraper();
     return res.status(200).json({
@@ -23,6 +26,7 @@ app.get("/enter", async (req, res) => {
 
 async function scraper() {
   const content = [];
+
   await axios.get("https://www.allkpop.com/").then((res) => {
     const html = res.data;
     const $ = cheerio.load(html);
