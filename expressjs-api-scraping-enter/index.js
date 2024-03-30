@@ -25,33 +25,22 @@ app.get("/mlb", async (req, res) => {
 });
 
 async function scraper() {
-  // console.log("🚀 ~ APIConstants.sites.forEach ~ site:", site.url);
+  const result = await Promise.all(
+    APIConstants.sites.map(async (site) => {
+      const { data: html } = await axios(site.url);
+      const $ = cheerio.load(html);
+      const articles = [];
 
-  const content = [];
-  const { data: html } = await axios("https://apnews.com/hub/mlb");
-  const $ = cheerio.load(html);
-
-  $('a:contains("Dodgers")', html).each(function () {
-    content.push({
-      title: $(this).text(),
-      url: $(this).attr("href"),
-    });
-  });
-  return content;
-
-  // await axios.get("https://apnews.com/hub/mlb").then((res) => {
-  //   const html = res.data;
-  //   const $ = cheerio.load(html);
-
-  //   $('a:contains("Dodgers")', html).each(function () {
-  //     content.push({
-  //       title: $(this).text(),
-  //       url: $(this).attr("href"),
-  //     });
-  //   });
-  //   return content;
-  // });
-  // return content;
+      $('a:contains("Dodgers")', html).each(function () {
+        articles.push({
+          title: $(this).text(),
+          url: $(this).attr("href"),
+        });
+      });
+      return articles;
+    })
+  );
+  return result.flat();
 }
 
 app.listen(PORT, () => {
