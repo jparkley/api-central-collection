@@ -8,14 +8,14 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 
 app.get("/", (req, res) => {
-  res.send("Welcome");
+  res.send("Welcome!");
 });
 
 app.get("/mlb", async (req, res) => {
   try {
-    const content = await scraper();
+    const result = await scraper();
     return res.status(200).json({
-      result: content,
+      result,
     });
   } catch (err) {
     return res.status(500).json({
@@ -25,21 +25,33 @@ app.get("/mlb", async (req, res) => {
 });
 
 async function scraper() {
+  // console.log("🚀 ~ APIConstants.sites.forEach ~ site:", site.url);
+
   const content = [];
+  const { data: html } = await axios("https://apnews.com/hub/mlb");
+  const $ = cheerio.load(html);
 
-  await axios.get("https://www.allkpop.com/").then((res) => {
-    const html = res.data;
-    const $ = cheerio.load(html);
-
-    $('a:contains("pop")', html).each(function () {
-      content.push({
-        title: $(this).text(),
-        url: $(this).attr("href"),
-      });
+  $('a:contains("Dodgers")', html).each(function () {
+    content.push({
+      title: $(this).text(),
+      url: $(this).attr("href"),
     });
   });
-  // console.log("🚀 ~ content:", content);
   return content;
+
+  // await axios.get("https://apnews.com/hub/mlb").then((res) => {
+  //   const html = res.data;
+  //   const $ = cheerio.load(html);
+
+  //   $('a:contains("Dodgers")', html).each(function () {
+  //     content.push({
+  //       title: $(this).text(),
+  //       url: $(this).attr("href"),
+  //     });
+  //   });
+  //   return content;
+  // });
+  // return content;
 }
 
 app.listen(PORT, () => {

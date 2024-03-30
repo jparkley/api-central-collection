@@ -8,6 +8,7 @@
 # misc
 
 # debug
+*.bak.*
 
 # local env files
 /*/.env
