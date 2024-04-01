@@ -4,7 +4,7 @@
 
 https://r71fdgepvf.execute-api.us-east-1.amazonaws.com/prod/mlb
 
-Scraper built in Node.js with Express, Cheerio, Axios
+A scraper developed using Node.js with Express, Cheerio, and Axios, then deployed to AWS API Gateway.
 
 ##
 

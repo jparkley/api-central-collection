@@ -23,3 +23,7 @@ Scraper built in Node.js with Express, Cheerio, Axios
 ### Notes
 
 namimg... 🫠
+
+### TODO
+
+- use SAM
