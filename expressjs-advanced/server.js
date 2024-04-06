@@ -1,13 +1,14 @@
+require("dotenv").config();
 const express = require("express");
-const dotenv = require("dotenv").config();
+const router = require("./routes/index");
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello world");
-});
+// User Express.Router middleware
+app.use("/api", router);
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Express server started on ${port}`);
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Express server started on ${PORT}`);
 });
