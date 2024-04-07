@@ -1,11 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const router = require("./routes/");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
-// User Express.Router middleware
+// Use Express body parser middleware
+app.use(express.json());
+
+// Use Express.Router middleware
 app.use("/api", router);
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
