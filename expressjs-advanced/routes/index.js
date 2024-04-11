@@ -8,7 +8,13 @@ const {
   deleteContact,
 } = require("../controllers/contacts/");
 
-const { registerUser, loginUser } = require("../controllers/users/");
+const validateToken = require("../middleware/tokenHandler");
+
+const {
+  registerUser,
+  loginUser,
+  getProfile,
+} = require("../controllers/users/");
 
 router.route("/contacts/").get(getContacts);
 router.route("/contacts/").post(createContact);
@@ -21,8 +27,6 @@ router.post("/users/register", registerUser);
 
 router.post("/users/login", loginUser);
 
-router.get("/users/profile", (req, res) => {
-  res.json({ message: "Here is the user profile" });
-});
+router.get("/users/profile", validateToken, getProfile);
 
 module.exports = router;
